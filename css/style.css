@@ -1,0 +1,18 @@
+body
+{
+    text-align: center;
+    font-family: "Courier New";
+    background-color: #aaaaaa ;
+}
+
+#titlebar
+{
+    background-color: black;
+    color: white;
+}
+
+#canvas
+{
+    background-color: blue;
+    margin-top: 10px;
+}
