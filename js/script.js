@@ -34,7 +34,7 @@ var p2 =
 };
 
 var CloudSpawnChance = Math.floor(Math.random()*51)+5;
-alert(CloudSpawnChance);
+//alert(CloudSpawnChance);
 var clouds = [];
 
 var timesincelastshot = 0;
@@ -95,8 +95,8 @@ var torpedos = [];
 var torpedo = function()
 {
   this.id = 0;
-  this.x = p.x + p.width/2;
-  this.y = p.y + p.height;
+  this.x = 1;
+  this.y = 1;
   this.width = 10;
   this.height = 20;
   this.yvel = 2;
@@ -124,7 +124,7 @@ var torpedo = function()
     if(this.y >= height || this.y <= -this.height)
     {
       torpedos.shift();
-      for(var i = 0; i < torpedos.length; i++)
+      for(var i = this.id; i < torpedos.length; i++)
         {
           torpedos[i].id -= 1;
         }
@@ -135,7 +135,24 @@ var torpedo = function()
     && this.x <= p.x + p.width
     && this.y <= p.y + p.height)
     {
-      
+      score += 1;
+      torpedos.splice(this.id, 1);
+      for(var i = this.id; i < torpedos.length; i++)
+        {
+          torpedos[i].id -= 1;
+        }
+    }
+    if(this.x + this.width >= p2.x
+    && this.y + this.height >= p2.y
+    && this.x <= p2.x + p2.width
+    && this.y <= p2.y + p2.height)
+    {
+      p2score += 1;
+      torpedos.splice(this.id, 1);
+      for(var i = this.id; i < torpedos.length; i++)
+        {
+          torpedos[i].id -= 1;
+        }
     }
   };
   this.draw = function()
@@ -208,6 +225,8 @@ function update()
         timesincelastshot = 0;
         torpedos.push(new torpedo());
         torpedos[torpedos.length-1].id = torpedos.length-1;
+        torpedos[torpedos.length-1].y = p.y + p.height;
+        torpedos[torpedos.length-1].x = p.x + p.width/2; 
       }
     }
     
@@ -219,9 +238,10 @@ function update()
         torpedos.push(new torpedo());
         torpedos[torpedos.length-1].id = torpedos.length-1;
         torpedos[torpedos.length-1].yvel *= -1;
-        torpedos[torpedos.length-1].y = p2.y;
-        torpedos[torpedos.length-1].x = p2.x + p2.width/2; 
+        torpedos[torpedos.length-1].y = p2.y - torpedos[torpedos.length-1].height;
+        torpedos[torpedos.length-1].x = p2.x + p2.width/2;
       }
+      
     }
     
     //offscreen player
